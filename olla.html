@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AGENT48</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+  <script>
+    // Mencegah Klik Kanan
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Mencegah Developer Tools
+    document.addEventListener("keydown", function(event) {
+        if (
+            event.key === "F12" || 
+            (event.ctrlKey && event.shiftKey && (event.key === "I" || event.key === "J")) ||
+            (event.ctrlKey && event.key === "U")
+        ) {
+            event.preventDefault();
+        }
+    });
+
+    // Deteksi Developer Tools Terbuka
+    (function() {
+        var devtools = false;
+        var element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                devtools = true;
+                throw new Error("DevTools detected");
+            }
+        });
+        setInterval(function() {
+            devtools = false;
+            console.log(element);
+            if (devtools) {
+                document.body.innerHTML = "<h1>Akses Diblokir!</h1>";
+            }
+        }, 1000);
+    })();
+</script>
+  <style>
+    /*tanpa background */
+    .header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px;
+      font-size: 22px;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    /* Warna tulisan */
+    .header .agent {
+      color: white;
+    }
+
+    .header .fortyeight {
+      color: red;
+    }
+
+    /* video  di tengah */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #121212; 
+      margin: 0;
+    }
+
+    /* Styling video ukuran sedang */
+    .video-container {
+      width: 70%;
+      max-width: 800px;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 10px; 
+      box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2); 
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <span class="agent">AGENT</span><span class="fortyeight">48</span>
+  </div>
+
+  <div class="video-container">
+    <video id="player" controls></video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('player');
+      const source = "https://aps13.playlist.live-video.net/v1/playlist/CsoFP_BACiup-uNJHjPBEAHJQj2Sr_RrDnOdMfFUG38Cv-UHOrVIIn2kYWXL6Tobwa0Lk6hst2PY1IQPts51J6gaYDU4XUnntKAsv-a9Nxb3Vz-dutRCsNFa-FNpGNfa1beNSFziZYzw_ejyekEFt6Qk2RTS1XANUYv8ifE2bUsgAo7RSmg8V8QOu1uavLP2ekQvlume3glK96Tk63JjqZWtHKD0v-d76lsKnEwG2yTQHj0em_d8rGceOgw5FCNqeZ-NI9yJmxDQFYnhAiuwsuu9v3Vizw6sQrzMfHmk03cGWsyw_2zvmkgeXjKJuRcaZR1eXOSJYX5ryVal7Z477q4PpYbG94buf8kJla4m7jZFziSRryGwy7S2ZWFM_rdp59fIdeVSzfVzpcMn4UGErQWciljE6oCkXKNqobLw5r7KNWl9HX0HBlG6rOAozPhHaHE2-B1F5Jg5KIoHHRuAuCaWcrZ2svYThfXVLTOJOdT2Yc1PPt47CDRMwfodwlZ3-fVRbLoo-C2rsjNVZNGGgGUoEIpdGNzs0C4psWoT_FTvzAdTMbw85lRvkrTzXPSb4pG4HTKd6ScUNFGadrTGZMOquW5T_VA9-slQdVDQcN8n663tjfaUB_5To-WIiNWYS-si24rtXS1YXh1ppMmH_wp5uRn7rLV1AR37uc0R83poqKSi7LftghK-zveqiG4eicszb1hqtcMpg-X1Zv6hLKvCFK6bqtYfU_2cBbymk4gtTj20YS819H2Tope98i4sfWD_KIQJ36Y965xWzelXXtZscLwxkZHTFVvymIe_S0PyPeQH5J4UCjXLKpi5mRcj-MkaLyrUxtiTU7shl6Cpf113d2aE3_ao2gY3JuEnIUNKaoQd3QpMa7Ddcy5mEEJ38klOq7QqPFSsVD1SUPww7MBRsOjKV1lHGrN7Qx_Ci3NUSjxypYYP5jD8i2knGgwLR4vyQZm3d6mTPqEgASoJdXMtd2VzdC0yMOML.m3u8";
+
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(source);
+        hls.attachMedia(video);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          const availableQualities = hls.levels.map(level => level.height);
+          const uniqueQualities = [...new Set(availableQualities)].sort((a, b) => b - a);
+          
+          const player = new Plyr(video, {
+            controls: [
+              'play-large', 'play', 'fast-forward', 'progress', 'current-time',
+              'duration', 'mute', 'volume', 'captions', 'settings', 'pip',
+              'airplay', 'fullscreen'
+            ],
+            settings: ['Quality']
+          });
+
+          
+          const defaultQuality = uniqueQualities.includes(1080) ? 1080 : uniqueQualities[0];
+
+          function updateQuality(newQuality) {
+            hls.levels.forEach((level, index) => {
+              if (level.height === newQuality) {
+                hls.currentLevel = index;
+              }
+            });
+          }
+
+          player.on('ready', () => {
+           
+            player.config.quality = {
+              default: defaultQuality,
+              options: uniqueQualities,
+              forced: true,
+              onChange: updateQuality
+            };
+
+         
+            updateQuality(defaultQuality);
+          });
+
+        });
+
+      } else {
+        video.src = source;
+      }
+    });
+  </script>
+
+</body>
+
+</html>

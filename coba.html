@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AGENT48</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+  <style>
+    /* Header */
+    .header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px;
+      font-size: 22px;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .header .agent {
+      color: white;
+    }
+
+    .header .fortyeight {
+      color: red;
+    }
+
+    /* Video di tengah */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #121212;
+      margin: 0;
+    }
+
+    .video-container {
+      width: 70%;
+      max-width: 800px;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <span class="agent">AGENT</span><span class="fortyeight">48</span>
+  </div>
+
+  <div class="video-container">
+    <video id="player" controls></video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('player');
+      const source = "https://aps11.playlist.live-video.net/v1/playlist/CtoFwrhvrJZSTtJg_dimICniEXUTm1AK0-w0qgvVDAwxRzlCV1jgqndlz8aStCdT1B6CLsdVKbZSzQ92ml24y7iiYQDGXCet9czLCInqdtxLsgLvoSgLix1HjyPF9OpFMnWyuyx9GJ95kqkUSzR-r4qnQS_5f5SnK52XZxKAJEK4krlJNb-QzxvvcNSyQOdarl2J9o1K3EIMBnpK59BhD4gUnuoJq7f9KLrsV3AzYrvSXc6F957eWCvU-56sbqW2izIiuzEixNfZGYoC5HjjvTo2RPezrdN_rWtlnmSxMD6YnJyXmDb3OX2lTYuTPsuIs2A6QKw3WP3--CY3Qlvb6CLJPilwrRO5LHb44h2YYLR8o7bKTPLjsTpVE5gDkv7FCEfstpxmWEHeemiDXvWoCzlVC__nEBsHe6i_kcy84VJA5JeqfqZ8fk-as_rjPwisJr0Air4RW9BUZ_inL-Q99nYPa-lnCJLinFnqtDzIGUyOyfp_gfYwzw6Vj1R-InHmPYJSuJzA7hH4OPPL57u3UgMImWeK2s-QYD6VWdzDOnZcS21mUx5ku2_DB9Lu8Rrp7sqwOw5YxCfZjn1T3MbPNLGK9ZitGa6xqvuMgJO-_o32Crr2Uay6vLMcx2dYldG9cpyytZ1nQC3u2AnHGvgUIZvmdeRtuF74PhNbylQFsK4kxvDpZOqwnOrIDzjzzhnZ06hz6L5LsAELrBxUlo7QVdWqV5jZGXqixXKHDm5HzPbgt2-c4vq3mzp_uDzxXOPgDGlLPzRHinAy6zyJ6DTbdW9uLcvZABxv_zSrTCf0w6h5yuNaMoUn3pkcM40Ffukl_kltCXZNqPFVCrupaSq4k_ZHvKWWFd-Ej7xbYiI1dcXMovc-AQpZU3Vd7lqSuuymYmYMPjFDTeFZ8hdHtx_buJgYfbFOX_m2gOPKc60cwOCQyUe9bwJBC1jCBxrCjRzA5_D31aunrzFFjFy-PhoMvpW3x5lcsxdhNzC9IAEqCXVzLXdlc3QtMjDjCw.m3u8";
+
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(source);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+          const player = new Plyr(video, {
+            controls: [
+              'play-large', 'play', 'fast-forward', 'progress', 'current-time',
+              'duration', 'mute', 'volume', 'captions', 'settings', 'pip',
+              'airplay', 'fullscreen'
+            ],
+            settings: ['Quality']
+          });
+
+          // Ambil daftar kualitas video
+          const availableQualities = hls.levels.map(level => level.height);
+          const uniqueQualities = [...new Set(availableQualities)].sort((a, b) => b - a);
+          const defaultQuality = uniqueQualities.includes(1080) ? 1080 : uniqueQualities[0];
+
+          // Fungsi untuk mengubah kualitas video
+          function updateQuality(newQuality) {
+            hls.levels.forEach((level, index) => {
+              if (level.height === newQuality) {
+                hls.currentLevel = index;
+              }
+            });
+          }
+
+          player.on('ready', () => {
+            player.config.quality = {
+              default: defaultQuality,
+              options: uniqueQualities,
+              forced: true,
+              onChange: updateQuality
+            };
+            updateQuality(defaultQuality);
+          });
+        });
+      } else {
+        video.src = source;
+      }
+    });
+  </script>
+
+</body>
+</html>

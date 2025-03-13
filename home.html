@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGENT48</title>
+    <link rel="icon" type="image/png" href="agent48.png">
+    <script>
+        // Mencegah Klik Kanan
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Mencegah Developer Tools
+        document.addEventListener("keydown", function(event) {
+            if (
+                event.key === "F12" || 
+                (event.ctrlKey && event.shiftKey && (event.key === "I" || event.key === "J")) ||
+                (event.ctrlKey && event.key === "U")
+            ) {
+                event.preventDefault();
+            }
+        });
+
+        // Deteksi Developer Tools Terbuka
+        (function() {
+            var devtools = false;
+            var element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    devtools = true;
+                    throw new Error("DevTools detected");
+                }
+            });
+            setInterval(function() {
+                devtools = false;
+                console.log(element);
+                if (devtools) {
+                    document.body.innerHTML = "<h1>Akses Diblokir!</h1>";
+                }
+            }, 1000);
+        })();
+    </script>
+    <style>
+        body {
+            background-color: #292828;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            color: white;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .header .agent {
+            color: white;
+        }
+        .header .forty-eight {
+            color: red;
+        }
+        .about, .live-now {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .about h2, .live-now h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .about p, .live-now p {
+            text-align: justify;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .topic {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .theater-list {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .theater-card {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 15px;
+            width: 30%;
+        }
+        .theater-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .show-date {
+            background-color: purple;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .footer {
+            background-color: #222;
+            padding: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: white;
+        }
+        .footer a {
+            color: cyan;
+            text-decoration: none;
+        }
+        .live-now img {
+            display: block;
+            margin: 20px auto;
+            width: 50%;
+            border-radius: 10px;
+        }
+        .watch-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: red;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .live-now {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.live-now h2 {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.live-container {
+    display: flex;
+    gap: 20px;
+}
+.live-card {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 10px;
+    width: 200px;
+    position: relative;
+}
+.live-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+.viewer-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.live-card p {
+    text-align: center;
+    margin-top: 10px;
+}
+.live-time {
+    color: gray;
+    font-size: 14px;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span class="agent">AGENT</span><span class="forty-eight">48</span>
+    </div>
+    <div class="about">
+        <h2>ABOUT AGENT48</h2>
+        <p><strong>AGENT48 </strong> adalah platform digital yang didedikasikan untuk para penggemar JKT48. Website ini menjadi tempat utama untuk mendapatkan informasi terbaru seputar Live Theater, Event, Live IDN & Showroom dari JKT48.</p>
+        <p>Di AGENT48, penggemar dapat menikmati berbagai fitur menarik, seperti:</p>
+           <p>🎭 Live Theater – Saksikan penampilan langsung dari member JKT48 di teater resmi mereka.</p> 
+           <p> 🎉 Event Eksklusif – Dapatkan update mengenai event spesial, mulai dari konser, fan meeting, hingga acara komunitas.</p> 
+            <p>📺 Live IDN & Showroom – Ikuti sesi live streaming dari member JKT48 di platform IDN Live & Showroom untuk lebih dekat dengan idola favoritmu.</p> 
+            
+            AGENT48 hadir untuk memberikan pengalaman ngidol yang lebih seru, interaktif, dan selalu up-to-date dengan dunia JKT48! 🚀</p>
+    </div>
+    <div class="live-now">
+        <h2>IDN & SHOWROOM Live</h2>
+        <div class="live-container">
+            <div class="live-card">
+                <a href="IDN JKT48.html">
+                    <img src="jkt48.png" alt="JKT48 Live">
+                </a>
+                <p>JKT48 <span class="live-time"></span></p>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="topic">Jadwal Theater</div>
+        <div class="theater-list">
+            <div class="theater-card">
+                <img src="sch.png" alt="JKT48 School">
+                <div class="show-date">Minggu, 16 Maret 2025 - 19:30</div>
+                <p>Di JKT48 School, para Trainee akan menjadi murid yang siap belajar, berkembang, dan mengeksplorasi potensi mereka. Setiap kelas bukan hanya tempat menimba ilmu, tetapi juga panggung untuk menunjukkan sisi lain yang belum pernah terlihat, 
+                    dengan kejutan dari bintang tamu spesial! Yuk, ikuti JKT48 School dan kenali para trainee lebih dekat! Saksikan semangat mereka di setiap kelas untuk tumbuh bersama dan semakin bersinar. Pastinya kamu akan menemukan sisi baru yang membuatmu semakin jatuh hati</p>
+                <p>LINEUP: Fiony, Freya, Nayla, Nachia, Oline, Virgi, Auwia, Rilly, Giaa, Maira, Ekin, Jemima, Mikaela, Intan</p>
+            </div>
+            <div class="theater-card">
+                <img src="catur.png" alt="Catur Asta">
+                <div class="show-date">Sabtu, 15 Maret 2025 - 19:30</div>
+                <p>Menampilkan sisi lain dari kehidupan sekelompok manusia yang bekerja dalam sebuah kantor "Ahensi Kreatif" di salah satu kota besar di Indonesia. Seringkali kita dihadapkan pada berbagai pilihan yang menyulitkan dalam dinamika pekerjaan. Bahkan beberapa dari kalian mungkin akan memilih takut "deadline" daripada takut hantu. Dikemas dalam dialog yang "satire"- siap menampar para budak korporat (baca; kita) yang berada dalam frekuensi yang sama. Pepatah mengatakan "Rejeki sudah ada Signature", namun apakah benar demikian? 
+                    Simak kisahnya yang diracik semanis teh es buatan Marlina Sihantam Meja! Kind reminder: Sampai bertemu di First Alignment, undangan sudah kami kirimkan Cc email masing-masing!.</p>
+                <p>LINEUP: Christy, Anindya, Cathy, Elin, Oniel, Olla, Fiony, Freya, Ella, Gendis, Greesel, Eli, Indah, Michie, Gracia, Lily</p>
+            </div>
+            <div class="theater-card">
+                <img src="dance.png" alt="dance">
+                <div class="show-date">Minggu, 16 Maret 2025 - 19:30</div>
+                <p>THE BATTLE: DANCING QUEEN akan menghadirkan para member JKT48 dengan skill dance terbaik! Dalam acara ini, mereka akan saling berhadapan dalam sebuah battle untuk menunjukkan siapa yang pantas menyandang gelar "Dancing Queen". Tak hanya itu, mereka juga akan menghadapi tantangan untuk menguji kreativitas, kecepatan, dan kekompakan. Siapakah member yang akan membuktikan diri sebagai dancer terbaik?</p>
+                <p>LINEUP: Amanda, Cynthia, Danella, Daisy, Gracie, Jessi, Kathrina, Muthe, Raisha, Delynn, Erine, Fritzy, Trisha, Levi, Nayla, Kimmy.</p>
+            </div>
+            <div class="theater-card">
+                <img src="family.png" alt="Family 48">
+                <div class="show-date">Minggu, 16 Maret 2025 - 19:30</div>
+                <p>Dalam acara ini, kita akan bersama-sama menyaksikan member menebak jawaban terbanyak dari setiap pertanyaan yang telah melalui sebuah survei khusus. Kecepatan berpikir dan kreativitas tentu menjadi modal yang sangat penting untuk menemukan setiap jawaban. Saksikan keseruannya, hanya di JKT48 Theater!</p>
+                <p>LINEUP: Alya, Christy, Chelsea, Oniel, Ella, Gita, Indah, Lyn, Lulu, Aralie, Lana, Ribka.</p>
+            </div>
+        </div>
+    </div>
+    <div class="live-now">
+        <h2>LIVE SEKARANG</h2>
+        <img src="sch.png" alt="JKT48 School Live Now">
+        <div class="show-date">JKT48SCHOOL</div>
+        <div class="show-date">Sabtu, 15 Maret 2025 - 19:30
+            <p>Sedang berlangsung: <strong>JKT48 Live Streaming Show</strong>. Saksikan para anggota JKT48 tampil langsung dari theater eksklusif mereka.</p>
+                <p>LINEUP: Alya, Christy, Chelsea, Oniel, Ella, Gita, Indah, Lyn, Lulu, Aralie, Lana, Ribka.</p>
+        </div>
+
+        <a href="#" class="watch-button">Tonton Sekarang</a>
+    </div>
+    <div class="footer">
+        <p>AGENT48 hadir untuk memberikan pengalaman ngidol yang lebih seru dan interaktif.</p>
+        <p>Contact Us: agent48dc@gmail.com | <a href="https://discord.gg/xw7G84b9Ws">Discord Group</a> | <a href="https://www.instagram.com/agent48dc/">IG @AGENT48</a> | <a href="https://linktr.ee/agent48dc">LINKTREE</a></p>
+        <p>Copyright 2025 • All rights reserved • AGENT48</p>
+    </div>
+</body>
+</html>
